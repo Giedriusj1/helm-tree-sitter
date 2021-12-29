@@ -39,6 +39,12 @@
 (require 'helm-tree-sitter-python)
 (require 'helm-tree-sitter-rust)
 
+
+;; Normally load this on demand by helm-tree-sitter-or-imenu,
+;; but to make byte compiler happy we'll load it here too.i
+(eval-when-compile (require 'helm-imenu))
+
+
 (defvar helm-tree-sitter-producer-mode-maps
       '((python-mode . helm-tree-sitter-python-candidate-producer)
         (c++-mode . helm-tree-sitter-cpp-candidate-producer)
