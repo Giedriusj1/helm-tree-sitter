@@ -25,9 +25,12 @@
 ;; Simple helm interface to tree-sitter.
 
 ;;; Commentary:
-;; Utility functions, mainly dealing with strings.
+;; Utility functions, mainly dealing with strings and copying propertized
+;; text from buffers.
 
 ;;; Code:
+
+(require 'tsc)
 
 (defun helm-tree-sitter-utils-strip-newlines-and-whitespaces (str)
   (unless (stringp str)
@@ -59,7 +62,7 @@
     nil))
 
 (defun helm-tree-sitter-utils-append-space-if-not-empty(str)
-  (if (not (helm-tree-sitter-empty-string str))
+  (if (not (helm-tree-sitter-utils-empty-string str))
       (concat str " ") str))
 
 (defun helm-tree-sitter-utils-prepend-if-not-empty (str prepend)

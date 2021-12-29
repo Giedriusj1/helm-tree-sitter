@@ -33,10 +33,10 @@
 
 (require 'helm-tree-sitter-utils)
 
-(require 'helm-tree-sitter-c-fns)
-(require 'helm-tree-sitter-cpp-fns)
-(require 'helm-tree-sitter-python-fns)
-(require 'helm-tree-sitter-rust-fns)
+(require 'helm-tree-sitter-c)
+(require 'helm-tree-sitter-cpp)
+(require 'helm-tree-sitter-python)
+(require 'helm-tree-sitter-rust)
 
 ;; tree-sitter element. Holds everything we care about for each of the candidates.
 (cl-defstruct helm-tree-sitter-elem node node-type node-text start-pos depth)

@@ -40,22 +40,22 @@
    (propertize "Dependency / "
                'face 'italic)
 
-   (helm-tree-sitter-get-node-text (helm-tree-sitter-elem-node x))))
+   (helm-tree-sitter-utils-get-node-text (helm-tree-sitter-elem-node x))))
 
 (defun helm-tree-sitter-python-function-definition-fn (x)
   (unless (helm-tree-sitter-elem-p x)
     (signal 'wrong-type-argument (list 'helm-tree-sitter-elem-p x)))
 
   (let* ((children-alist (helm-tree-sitter-node-children-to-alist (helm-tree-sitter-elem-node x)))
-         (identifier (helm-tree-sitter-get-node-text (alist-get 'identifier children-alist)))
-         (parameters (helm-tree-sitter-get-node-text (alist-get 'parameters children-alist))))
+         (identifier (helm-tree-sitter-utils-get-node-text (alist-get 'identifier children-alist)))
+         (parameters (helm-tree-sitter-utils-get-node-text (alist-get 'parameters children-alist))))
 
     (concat
      (propertize "Function / "
                  'face 'italic)
      (concat
       identifier
-      (helm-tree-sitter-strip-newlines-and-whitespaces parameters)))))
+      (helm-tree-sitter-utils-strip-newlines-and-whitespaces parameters)))))
 
 
 (defun helm-tree-sitter-python-class-definition-fn (x)
@@ -63,7 +63,7 @@
     (signal 'wrong-type-argument (list 'helm-tree-sitter-elem-p x)))
 
   (let* ((children-alist (helm-tree-sitter-node-children-to-alist (helm-tree-sitter-elem-node x)))
-         (identifier (helm-tree-sitter-get-node-text (alist-get 'identifier children-alist))))
+         (identifier (helm-tree-sitter-utils-get-node-text (alist-get 'identifier children-alist))))
 
     (concat
      (propertize "Class / "

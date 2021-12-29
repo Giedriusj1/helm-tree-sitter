@@ -52,20 +52,20 @@
          ;; Only one kind will be present.
 
          ;; Something like boost::shared_ptr<type> fn()
-         (template-type (helm-tree-sitter-get-node-text-or-nil (alist-get 'template_type children-alist)))
+         (template-type (helm-tree-sitter-utils-get-node-text-or-nil (alist-get 'template_type children-alist)))
 
          ;; We would have this with namespace::type fn()
-         (scoped-type (helm-tree-sitter-get-node-text-or-nil (alist-get 'scoped_type_identifier children-alist)))
+         (scoped-type (helm-tree-sitter-utils-get-node-text-or-nil (alist-get 'scoped_type_identifier children-alist)))
 
          ;; We would have this with type fn()
-         (type-identifier (helm-tree-sitter-get-node-text-or-nil (alist-get 'type_identifier children-alist)))
+         (type-identifier (helm-tree-sitter-utils-get-node-text-or-nil (alist-get 'type_identifier children-alist)))
 
          ;; We would have this with int fn()
-         (primitive-type (helm-tree-sitter-get-node-text-or-nil (alist-get 'primitive_type children-alist)))
+         (primitive-type (helm-tree-sitter-utils-get-node-text-or-nil (alist-get 'primitive_type children-alist)))
 
-         (function-declarator (helm-tree-sitter-get-node-text (alist-get 'function_declarator children-alist)))
-         (function-reference-declarator (helm-tree-sitter-get-node-text (alist-get 'reference_declarator children-alist)))
-         (function-pointer-declarator (helm-tree-sitter-get-node-text (alist-get 'pointer_declarator children-alist))))
+         (function-declarator (helm-tree-sitter-utils-get-node-text (alist-get 'function_declarator children-alist)))
+         (function-reference-declarator (helm-tree-sitter-utils-get-node-text (alist-get 'reference_declarator children-alist)))
+         (function-pointer-declarator (helm-tree-sitter-utils-get-node-text (alist-get 'pointer_declarator children-alist))))
 
     (concat
      (propertize "Function / "
@@ -90,7 +90,7 @@
     (signal 'wrong-type-argument (list 'helm-tree-sitter-elem-p x)))
 
   (let* ((children-alist (helm-tree-sitter-node-children-to-alist (helm-tree-sitter-elem-node x)))
-         (type-identifier (helm-tree-sitter-get-node-text (alist-get 'type_identifier children-alist))))
+         (type-identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier children-alist))))
 
     (concat
      (propertize "Class specifier / "
