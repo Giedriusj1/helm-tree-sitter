@@ -25,6 +25,7 @@
 ;; Provides function for dealing with C++ code
 
 ;;; Code:
+(require 'helm-tree-sitter-utils)
 
 (defvar helm-tree-sitter-cpp-candidate-producer
   '(

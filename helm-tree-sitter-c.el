@@ -26,6 +26,8 @@
 
 ;;; Code:
 
+(require 'helm-tree-sitter-utils)
+
 (defvar helm-tree-sitter-c-candidate-producer
   '(("function_definition" . helm-tree-sitter-c-function-definition-fn)
     ("preproc_include" . helm-tree-sitter-c-preproc-include-fn)
@@ -43,7 +45,7 @@
     (signal 'wrong-type-argument (list 'helm-tree-sitter-elem-p x)))
 
   (let* ((children-alist (helm-tree-sitter-node-children-to-alist (helm-tree-sitter-elem-node x)))
-         (system-lib (helm-tree-sitter-get-node-text (alist-get 'system_lib_string children-alist)))
+         (system-lib (helm-tree-sitter-utils-get-node-text (alist-get 'system_lib_string children-alist)))
          (string-literal (helm-tree-sitter-utils-get-node-text (alist-get 'string_literal children-alist))))
 
     (concat

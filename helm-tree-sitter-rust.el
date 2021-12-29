@@ -28,6 +28,7 @@
 ;; Provides function for dealing with Rust code
 
 ;;; Code:
+(require 'helm-tree-sitter-utils)
 
 (defvar helm-tree-sitter-rust-candidate-producer
   '(("use_declaration" . helm-tree-sitter-rust-use-declaration-fn)
