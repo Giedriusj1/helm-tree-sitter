@@ -24,14 +24,14 @@
 ;;; Commentary:
 ;; Simple helm interface to tree-sitter.
 
-;; Currently only C/C++, Python and Rust are supported, but adding more
+;; Currently only C, C++, Python and Rust are supported, but adding more
 ;; languages in the future should be trivial.
 
 ;;; Code:
 (require 'helm)
 (require 'tree-sitter)
 
-(require 'helm-tree-sitter-utilities)
+(require 'helm-tree-sitter-utils)
 
 (require 'helm-tree-sitter-c-fns)
 (require 'helm-tree-sitter-cpp-fns)

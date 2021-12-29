@@ -1,3 +1,31 @@
+;;; helm-tree-sitter-python.el --- Helm interface for tree-sitter -*- lexical-binding: t -*-
+
+;; Copyright (C) 2021 Giedrius Jonikas <giedriusj1@gmail.com>
+
+;; Author: Giedrius Jonikas <giedriusj1@gmail.com>
+;; Version: 0.1.0
+;; URL: https://gitlab.com/giedriusj1/helm-tree-sitter
+
+;; Package-Requires: ((emacs "25.1") (helm "3.6.2") (tree-sitter "0.16.1"))
+
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+;;; Commentary:
+;; Provides function for dealing with Python code
+
+;;; Code:
+
 (defvar helm-tree-sitter-python-candidate-producer
   '(("import_statement"      . helm-tree-sitter-python-import-statement-fn)
     ("import_from_statement" . helm-tree-sitter-python-import-statement-fn)
@@ -42,4 +70,6 @@
                  'face 'italic)
      identifier)))
 
-(provide 'helm-tree-sitter-python-fns)
+(provide 'helm-tree-sitter-python)
+
+;;; helm-tree-sitter-python.el ends here
