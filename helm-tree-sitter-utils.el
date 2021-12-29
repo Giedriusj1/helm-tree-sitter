@@ -32,6 +32,13 @@
 
 (require 'tsc)
 
+(defun helm-tree-sitter-utils-node-children-to-alist (node)
+  (let ((pl '()))
+    (dotimes (e (tsc-count-named-children node))
+      (let* ((child-node (tsc-get-nth-named-child node e)))
+        (setf (alist-get (tsc-node-type child-node) pl) child-node)))
+    pl))
+
 (defun helm-tree-sitter-utils-strip-newlines-and-whitespaces (str)
   (unless (stringp str)
     (signal 'wrong-type-argument (list 'stringp str)))

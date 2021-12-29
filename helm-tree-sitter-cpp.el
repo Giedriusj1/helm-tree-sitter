@@ -48,7 +48,7 @@
   (unless (helm-tree-sitter-elem-p x)
     (signal 'wrong-type-argument (list 'helm-tree-sitter-elem-p x)))
 
-  (let* ((children-alist (helm-tree-sitter-node-children-to-alist (helm-tree-sitter-elem-node x)))
+  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-elem-node x)))
          ;; Let's get the return type of the function.
          ;; Only one kind will be present.
 
@@ -90,7 +90,7 @@
   (unless (helm-tree-sitter-elem-p x)
     (signal 'wrong-type-argument (list 'helm-tree-sitter-elem-p x)))
 
-  (let* ((children-alist (helm-tree-sitter-node-children-to-alist (helm-tree-sitter-elem-node x)))
+  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-elem-node x)))
          (type-identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier children-alist))))
 
     (concat

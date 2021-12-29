@@ -47,7 +47,7 @@
   (unless (helm-tree-sitter-elem-p x)
     (signal 'wrong-type-argument (list 'helm-tree-sitter-elem-p x)))
 
-  (let* ((children-alist (helm-tree-sitter-node-children-to-alist (helm-tree-sitter-elem-node x)))
+  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-elem-node x)))
          (identifier (helm-tree-sitter-utils-get-node-text (alist-get 'identifier children-alist)))
          (parameters (helm-tree-sitter-utils-get-node-text (alist-get 'parameters children-alist))))
 
@@ -63,7 +63,7 @@
   (unless (helm-tree-sitter-elem-p x)
     (signal 'wrong-type-argument (list 'helm-tree-sitter-elem-p x)))
 
-  (let* ((children-alist (helm-tree-sitter-node-children-to-alist (helm-tree-sitter-elem-node x)))
+  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-elem-node x)))
          (identifier (helm-tree-sitter-utils-get-node-text (alist-get 'identifier children-alist))))
 
     (concat
