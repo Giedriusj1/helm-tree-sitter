@@ -31,15 +31,13 @@
 (require 'helm)
 (require 'tree-sitter)
 
+(require 'helm-tree-sitter-core)
 (require 'helm-tree-sitter-utils)
 
 (require 'helm-tree-sitter-c)
 (require 'helm-tree-sitter-cpp)
 (require 'helm-tree-sitter-python)
 (require 'helm-tree-sitter-rust)
-
-;; tree-sitter element. Holds everything we care about for each of the candidates.
-(cl-defstruct helm-tree-sitter-elem node node-type node-text start-pos depth)
 
 
 (defvar helm-tree-sitter-producer-mode-maps
@@ -79,9 +77,9 @@ Otherwise we'll default to helm-imenu."
 
   (helm :sources
         (helm-build-sync-source "Tree-sitter"
-          :candidates (helm-tree-sitter-elements-to-helm-candidates (helm-tree-sitter-build-node-list (tsc-root-node tree-sitter-tree) 0))
+          :candidates (helm-tree-sitter-core-elements-to-helm-candidates (helm-tree-sitter-build-node-list (tsc-root-node tree-sitter-tree) 0))
           :action (lambda (x)
-                    (goto-char (helm-tree-sitter-elem-start-pos x)))
+                    (goto-char (helm-tree-sitter-core-elem-start-pos x)))
           :fuzzy-match t)
         :candidate-number-limit 9999
         :buffer "*helm tree-sitter*"))
@@ -94,12 +92,12 @@ Otherwise we'll default to helm-imenu."
       ;; TODO: we probably want to signal that the mode is not supported
       nil)))
 
-(defun helm-tree-sitter-elements-to-helm-candidates (elements)
+(defun helm-tree-sitter-core-elements-to-helm-candidates (elements)
   (remq nil
         (mapcar
          (lambda (node)
            (let* ((my-fn (assoc-default
-                          (format "%s" (helm-tree-sitter-elem-node-type node))
+                          (format "%s" (helm-tree-sitter-core-elem-node-type node))
                           (helm-tree-sitter-get-candidate-producer-for-current-mode))))
              (when my-fn
                ;; Great, we have a handler for the element node type
@@ -120,7 +118,7 @@ Otherwise we'll default to helm-imenu."
 (defun helm-tree-sitter-build-node-list (node depth)
   (let ((elements '()))
     ;; Add the current node
-    (push (make-helm-tree-sitter-elem
+    (push (make-helm-tree-sitter-core-elem
            :node node
            :node-type (tsc-node-type node)
            :node-text (tsc-node-text node)

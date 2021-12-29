@@ -26,6 +26,7 @@
 
 ;;; Code:
 (require 'helm-tree-sitter-utils)
+(require 'helm-tree-sitter-core)
 
 (defvar helm-tree-sitter-python-candidate-producer
   '(("import_statement"      . helm-tree-sitter-python-import-statement-fn)
@@ -34,20 +35,20 @@
     ("class_definition"      . helm-tree-sitter-python-class-definition-fn)))
 
 (defun helm-tree-sitter-python-import-statement-fn (x)
-  (unless (helm-tree-sitter-elem-p x)
-    (signal 'wrong-type-argument (list 'helm-tree-sitter-elem-p x)))
+  (unless (helm-tree-sitter-core-elem-p x)
+    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p x)))
 
   (concat
    (propertize "Dependency / "
                'face 'italic)
 
-   (helm-tree-sitter-utils-get-node-text (helm-tree-sitter-elem-node x))))
+   (helm-tree-sitter-utils-get-node-text (helm-tree-sitter-core-elem-node x))))
 
 (defun helm-tree-sitter-python-function-definition-fn (x)
-  (unless (helm-tree-sitter-elem-p x)
-    (signal 'wrong-type-argument (list 'helm-tree-sitter-elem-p x)))
+  (unless (helm-tree-sitter-core-elem-p x)
+    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p x)))
 
-  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-elem-node x)))
+  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node x)))
          (identifier (helm-tree-sitter-utils-get-node-text (alist-get 'identifier children-alist)))
          (parameters (helm-tree-sitter-utils-get-node-text (alist-get 'parameters children-alist))))
 
@@ -60,10 +61,10 @@
 
 
 (defun helm-tree-sitter-python-class-definition-fn (x)
-  (unless (helm-tree-sitter-elem-p x)
-    (signal 'wrong-type-argument (list 'helm-tree-sitter-elem-p x)))
+  (unless (helm-tree-sitter-core-elem-p x)
+    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p x)))
 
-  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-elem-node x)))
+  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node x)))
          (identifier (helm-tree-sitter-utils-get-node-text (alist-get 'identifier children-alist))))
 
     (concat

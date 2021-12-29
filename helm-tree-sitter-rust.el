@@ -29,6 +29,7 @@
 
 ;;; Code:
 (require 'helm-tree-sitter-utils)
+(require 'helm-tree-sitter-core)
 
 (defvar helm-tree-sitter-rust-candidate-producer
   '(("use_declaration" . helm-tree-sitter-rust-use-declaration-fn)
@@ -37,20 +38,20 @@
     ("impl_item" . helm-tree-sitter-rust-impl-item-fn)))
 
 (defun helm-tree-sitter-rust-use-declaration-fn (x)
-  (unless (helm-tree-sitter-elem-p x)
-    (signal 'wrong-type-argument (list 'helm-tree-sitter-elem-p x)))
+  (unless (helm-tree-sitter-core-elem-p x)
+    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p x)))
 
   (concat
    (propertize "Use / "
                'face 'italic)
 
-   (helm-tree-sitter-utils-get-node-text (helm-tree-sitter-elem-node x ))))
+   (helm-tree-sitter-utils-get-node-text (helm-tree-sitter-core-elem-node x ))))
 
 (defun helm-tree-sitter-rust-function-definition-fn (x)
-  (unless (helm-tree-sitter-elem-p x)
-    (signal 'wrong-type-argument (list 'helm-tree-sitter-elem-p x)))
+  (unless (helm-tree-sitter-core-elem-p x)
+    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p x)))
 
-  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-elem-node x)))
+  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node x)))
          (visibility-modifier (helm-tree-sitter-utils-get-node-text (alist-get 'visibility_modifier children-alist)))
          (identifier (helm-tree-sitter-utils-get-node-text (alist-get 'identifier children-alist)))
          (type-identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier children-alist)))
@@ -69,10 +70,10 @@
       (helm-tree-sitter-utils-prepend-if-not-empty type-identifier " -> ")))))
 
 (defun helm-tree-sitter-rust-struct-item-fn (x)
-  (unless (helm-tree-sitter-elem-p x)
-    (signal 'wrong-type-argument (list 'helm-tree-sitter-elem-p x)))
+  (unless (helm-tree-sitter-core-elem-p x)
+    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p x)))
 
-  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-elem-node x)))
+  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node x)))
          (identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier children-alist))))
 
     (concat
@@ -82,10 +83,10 @@
      identifier)))
 
 (defun helm-tree-sitter-rust-impl-item-fn (x)
-  (unless (helm-tree-sitter-elem-p x)
-    (signal 'wrong-type-argument (list 'helm-tree-sitter-elem-p x)))
+  (unless (helm-tree-sitter-core-elem-p x)
+    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p x)))
 
-  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-elem-node x)))
+  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node x)))
          (identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier children-alist))))
 
     (concat
