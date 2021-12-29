@@ -39,7 +39,6 @@
 (require 'helm-tree-sitter-python)
 (require 'helm-tree-sitter-rust)
 
-
 (defvar helm-tree-sitter-producer-mode-maps
       '((python-mode . helm-tree-sitter-python-candidate-producer)
         (c++-mode . helm-tree-sitter-cpp-candidate-producer)
@@ -88,9 +87,7 @@ Otherwise we'll default to helm-imenu."
   (let* ((our-producer (symbol-value (assoc-default major-mode helm-tree-sitter-producer-mode-maps)) ))
     (if our-producer
         our-producer
-
-      ;; TODO: we probably want to signal that the mode is not supported
-      nil)))
+      (error "major mode is not supported by helm-tree-sitter"))))
 
 (defun helm-tree-sitter-core-elements-to-helm-candidates (elements)
   (remq nil
