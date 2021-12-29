@@ -4,9 +4,9 @@
 
 ;; Author: Giedrius Jonikas <giedriusj1@gmail.com>
 ;; Version: 0.1
-;; URL: todo
+;; URL: https://gitlab.com/giedriusj1/helm-tree-sitter
 
-;; Package-Requires: ((emacs "25.1") (helm "1.5.9") (company "0.6.13"))
+;; Package-Requires: ((emacs "25.1") (helm "3.6.2") (tree-sitter "0.16.1"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -143,4 +143,5 @@ Otherwise we'll default to helm-imenu"
     pl))
 
 (provide 'helm-tree-sitter)
+
 ;;; helm-tree-sitter.el ends here
