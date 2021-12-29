@@ -3,7 +3,7 @@
 ;; Copyright (C) 2021 Giedrius Jonikas <giedriusj1@gmail.com>
 
 ;; Author: Giedrius Jonikas <giedriusj1@gmail.com>
-;; Version: 0.1
+;; Version: 0.1.0
 ;; URL: https://gitlab.com/giedriusj1/helm-tree-sitter
 
 ;; Package-Requires: ((emacs "25.1") (helm "3.6.2") (tree-sitter "0.16.1"))
@@ -25,12 +25,11 @@
 ;; Simple helm interface to tree-sitter.
 
 ;; Currently only C/C++, Python and Rust are supported, but adding more
-;; languages should be trivial.
+;; languages in the future should be trivial.
 
 ;;; Code:
-
-(require 'tree-sitter)
 (require 'helm)
+(require 'tree-sitter)
 
 (require 'helm-tree-sitter-utilities)
 
@@ -39,10 +38,11 @@
 (require 'helm-tree-sitter-python-fns)
 (require 'helm-tree-sitter-rust-fns)
 
-;; tree-sitter element. Basically holds everything we care about each of the elements.
+;; tree-sitter element. Holds everything we care about for each of the candidates.
 (cl-defstruct helm-tree-sitter-elem node node-type node-text start-pos depth)
 
-(setq hts-producer-mode-maps
+
+(defvar helm-tree-sitter-producer-mode-maps
       '((python-mode . helm-tree-sitter-python-candidate-producer)
         (c++-mode . helm-tree-sitter-cpp-candidate-producer)
         (c-mode . helm-tree-sitter-c-candidate-producer)
@@ -55,19 +55,19 @@
 (defun helm-tree-sitter-or-imenu ()
   "Helm interface for tree-sitter. If tree-sitter is enabled and we
 know how to deal with major mode, we'll use helm-tree-sitter.
-Otherwise we'll default to helm-imenu"
+Otherwise we'll default to helm-imenu."
   (interactive)
 
+  (require 'helm-imenu)
+  
   (if (and tree-sitter-tree
-           (symbol-value (assoc-default major-mode hts-producer-mode-maps)))
+           (symbol-value (assoc-default major-mode helm-tree-sitter-producer-mode-maps)))
       (helm-tree-sitter)
     (helm-imenu)))
 
-
-
 ;;;###autoload
 (defun helm-tree-sitter ()
-  "Helm interface for tree-sitter"
+  "Helm interface for tree-sitter."
   (interactive)
 
   ;; We'll be copying fontified text from the buffer, so we want to
@@ -87,7 +87,7 @@ Otherwise we'll default to helm-imenu"
         :buffer "*helm tree-sitter*"))
 
 (defun helm-tree-sitter-get-candidate-producer-for-current-mode ()
-  (let* ((our-producer (symbol-value (assoc-default major-mode hts-producer-mode-maps)) ))
+  (let* ((our-producer (symbol-value (assoc-default major-mode helm-tree-sitter-producer-mode-maps)) ))
     (if our-producer
         our-producer
 
@@ -118,15 +118,16 @@ Otherwise we'll default to helm-imenu"
 ;; Inspect the tree-sitter-tree and build a flat list with all the nodes.
 ;; This will later be used to build helm candidates.
 (defun helm-tree-sitter-build-node-list (node depth)
-  (let* (elements '())
+  (let ((elements '()))
     ;; Add the current node
-    (add-to-list 'elements
-                 (make-helm-tree-sitter-elem
-                  :node node
-                  :node-type (tsc-node-type node)
-                  :node-text (tsc-node-text node)
-                  :start-pos (tsc-node-start-position node)
-                  :depth depth))
+    (push (make-helm-tree-sitter-elem
+           :node node
+           :node-type (tsc-node-type node)
+           :node-text (tsc-node-text node)
+           :start-pos (tsc-node-start-position node)
+           :depth depth)
+          
+          elements)
 
     ;; And now all the child nodes..
     (dotimes (e (tsc-count-named-children node))

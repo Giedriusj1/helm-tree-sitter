@@ -1,19 +1,19 @@
-(setq helm-tree-sitter-cpp-candidate-producer
-      '(
-        ;; We'll borrow some function from C
-        ("preproc_include"     . helm-tree-sitter-c-preproc-include-fn)
-        ("enum_specifier" . helm-tree-sitter-c-enum-specifier-fn)
-        ("union_specifier" . helm-tree-sitter-c-union-specifier-fn)
+(defvar helm-tree-sitter-cpp-candidate-producer
+  '(
+    ;; We'll borrow some function from C
+    ("preproc_include"     . helm-tree-sitter-c-preproc-include-fn)
+    ("enum_specifier" . helm-tree-sitter-c-enum-specifier-fn)
+    ("union_specifier" . helm-tree-sitter-c-union-specifier-fn)
 
-        ;; Stuff that is unique for C++
-        ("function_definition" . helm-tree-sitter-cpp-function-definition-fn)
-        ("class_specifier"     . helm-tree-sitter-cpp-class-specifier-fn)
-        
+    ;; Stuff that is unique for C++
+    ("function_definition" . helm-tree-sitter-cpp-function-definition-fn)
+    ("class_specifier"     . helm-tree-sitter-cpp-class-specifier-fn)
 
-        ;; We get very spammy output if we try to show every declaration,
-        ;; so we'll just ignore them for now.
-        ;; ("declaration" . helm-tree-sitter-cpp-declaration-fn)
-        ))
+
+    ;; We get very spammy output if we try to show every declaration,
+    ;; so we'll just ignore them for now.
+    ;; ("declaration" . helm-tree-sitter-cpp-declaration-fn)
+    ))
 
 (defun helm-tree-sitter-cpp-function-definition-fn (x)
   (unless (helm-tree-sitter-elem-p x)
@@ -25,13 +25,13 @@
 
          ;; Something like boost::shared_ptr<type> fn()
          (template-type (helm-tree-sitter-get-node-text-or-nil (alist-get 'template_type children-alist)))
-         
+
          ;; We would have this with namespace::type fn()
          (scoped-type (helm-tree-sitter-get-node-text-or-nil (alist-get 'scoped_type_identifier children-alist)))
-         
+
          ;; We would have this with type fn()
          (type-identifier (helm-tree-sitter-get-node-text-or-nil (alist-get 'type_identifier children-alist)))
-         
+
          ;; We would have this with int fn()
          (primitive-type (helm-tree-sitter-get-node-text-or-nil (alist-get 'primitive_type children-alist)))
 

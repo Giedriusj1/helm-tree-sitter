@@ -1,15 +1,14 @@
-(setq helm-tree-sitter-c-candidate-producer
-      '(("function_definition" . helm-tree-sitter-c-function-definition-fn)
-        ("preproc_include" . helm-tree-sitter-c-preproc-include-fn)
-        ("struct_specifier" . helm-tree-sitter-c-struct-specifier-fn)
-        ("enum_specifier" . helm-tree-sitter-c-enum-specifier-fn)
-        ("union_specifier" . helm-tree-sitter-c-union-specifier-fn)
+(defvar helm-tree-sitter-c-candidate-producer
+  '(("function_definition" . helm-tree-sitter-c-function-definition-fn)
+    ("preproc_include" . helm-tree-sitter-c-preproc-include-fn)
+    ("struct_specifier" . helm-tree-sitter-c-struct-specifier-fn)
+    ("enum_specifier" . helm-tree-sitter-c-enum-specifier-fn)
+    ("union_specifier" . helm-tree-sitter-c-union-specifier-fn)
 
-
-        ;; We get very spammy output if we try to show every declaration,
-        ;; so we'll just ignore them for now.
-        ;; ("declaration" . helm-tree-sitter-c-declaration-fn)
-        ))
+    ;; We get very spammy output if we try to show every declaration,
+    ;; so we'll just ignore them for now.
+    ;; ("declaration" . helm-tree-sitter-c-declaration-fn)
+    ))
 
 (defun helm-tree-sitter-c-preproc-include-fn (x)
   (unless (helm-tree-sitter-elem-p x)
@@ -118,13 +117,10 @@
                  (propertize "typedef Enum / "
                              'face 'italic)
 
-                 parent-type-identifier)))
-            )
-          )
+                 parent-type-identifier)))))
 
       ;; We failed to construct something sensible, so better not show anything
-      nil )
-    ))
+      nil )))
 
 (defun helm-tree-sitter-c-union-specifier-fn (x)
   (unless (helm-tree-sitter-elem-p x)
@@ -155,15 +151,9 @@
                  (propertize "typedef Union / "
                              'face 'italic)
 
-                 parent-type-identifier)))
-            )
-          )
+                 parent-type-identifier)))))
 
       ;; We failed to construct something sensible, so better not show anything
-      nil )
-    ))
-
-
-
+      nil )))
 
 (provide 'helm-tree-sitter-c-fns)

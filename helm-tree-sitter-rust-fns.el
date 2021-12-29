@@ -1,8 +1,8 @@
-(setq helm-tree-sitter-rust-candidate-producer
-      '(("use_declaration" . helm-tree-sitter-rust-use-declaration-fn)
-        ("struct_item" . helm-tree-sitter-rust-struct-item-fn)
-        ("function_item" . helm-tree-sitter-rust-function-definition-fn)
-        ("impl_item" . helm-tree-sitter-rust-impl-item-fn)))
+(defvar helm-tree-sitter-rust-candidate-producer
+  '(("use_declaration" . helm-tree-sitter-rust-use-declaration-fn)
+    ("struct_item" . helm-tree-sitter-rust-struct-item-fn)
+    ("function_item" . helm-tree-sitter-rust-function-definition-fn)
+    ("impl_item" . helm-tree-sitter-rust-impl-item-fn)))
 
 (defun helm-tree-sitter-rust-use-declaration-fn (x)
   (unless (helm-tree-sitter-elem-p x)

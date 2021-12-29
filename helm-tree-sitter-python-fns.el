@@ -1,8 +1,8 @@
-(setq helm-tree-sitter-python-candidate-producer
-      '(("import_statement"      . helm-tree-sitter-python-import-statement-fn)
-        ("import_from_statement" . helm-tree-sitter-python-import-statement-fn)
-        ("function_definition"   . helm-tree-sitter-python-function-definition-fn)
-        ("class_definition"      . helm-tree-sitter-python-class-definition-fn)))
+(defvar helm-tree-sitter-python-candidate-producer
+  '(("import_statement"      . helm-tree-sitter-python-import-statement-fn)
+    ("import_from_statement" . helm-tree-sitter-python-import-statement-fn)
+    ("function_definition"   . helm-tree-sitter-python-function-definition-fn)
+    ("class_definition"      . helm-tree-sitter-python-class-definition-fn)))
 
 (defun helm-tree-sitter-python-import-statement-fn (x)
   (unless (helm-tree-sitter-elem-p x)
