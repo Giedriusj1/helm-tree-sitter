@@ -29,6 +29,7 @@
 
 ;;; Code:
 (require 'helm)
+(require 'helm-imenu)
 (require 'tree-sitter)
 
 (require 'helm-tree-sitter-core)
@@ -38,11 +39,6 @@
 (require 'helm-tree-sitter-cpp)
 (require 'helm-tree-sitter-python)
 (require 'helm-tree-sitter-rust)
-
-
-;; Normally load this on demand by helm-tree-sitter-or-imenu,
-;; but to make byte compiler happy we'll load it here too.i
-(eval-when-compile (require 'helm-imenu))
 
 
 (defvar helm-tree-sitter-producer-mode-maps
@@ -61,8 +57,6 @@ know how to deal with major mode, we'll use helm-tree-sitter.
 Otherwise we'll default to helm-imenu."
   (interactive)
 
-  (require 'helm-imenu)
-  
   (if (and tree-sitter-tree
            (symbol-value (assoc-default major-mode helm-tree-sitter-producer-mode-maps)))
       (helm-tree-sitter)
