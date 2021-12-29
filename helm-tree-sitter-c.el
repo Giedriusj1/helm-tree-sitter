@@ -61,10 +61,7 @@
   (let* ((children-alist (helm-tree-sitter-node-children-to-alist (helm-tree-sitter-elem-node x)))
          (storage-class-specifier (helm-tree-sitter-get-node-text (alist-get 'storage_class_specifier children-alist)))
          (primitive-type (helm-tree-sitter-get-node-text (alist-get 'primitive_type children-alist)))
-
          (type-identifier (helm-tree-sitter-get-node-text (alist-get 'type_identifier children-alist)))
-
-         (parameters (helm-tree-sitter-get-node-text (alist-get 'parameters children-alist)))
          (function-declarator (helm-tree-sitter-get-node-text (alist-get 'function_declarator children-alist)))
          (function-pointer-declarator (helm-tree-sitter-get-node-text (alist-get 'pointer_declarator children-alist))))
 
