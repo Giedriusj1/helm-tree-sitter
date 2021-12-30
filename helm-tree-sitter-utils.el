@@ -56,32 +56,31 @@
   (if (tsc-node-p node)
       (buffer-substring
        (tsc-node-start-position node)
-       (tsc-node-end-position node) )
+       (tsc-node-end-position node))
     ""))
 
 ;; Same as function above, but we'll return nil if no node is
 ;; provided.
 (defun helm-tree-sitter-utils-get-node-text-or-nil (node)
-  (if (tsc-node-p node)
-      (buffer-substring
-       (tsc-node-start-position node)
-       (tsc-node-end-position node) )
-    nil))
+  (when (tsc-node-p node)
+    (buffer-substring
+     (tsc-node-start-position node)
+     (tsc-node-end-position node))))
 
 (defun helm-tree-sitter-utils-append-space-if-not-empty(str)
   (if (not (helm-tree-sitter-utils-empty-string str))
       (concat str " ") str))
 
 (defun helm-tree-sitter-utils-prepend-if-not-empty (str prepend)
-  (if (not (= (length str) 0))
-      (concat prepend str)))
+  (when (not (= (length str) 0))
+    (concat prepend str)))
 
 (defun helm-tree-sitter-utils-strip-newlines (str)
   (replace-regexp-in-string "\n" "" str))
 
 (defun helm-tree-sitter-utils-empty-string (str)
-  (if (stringp str)
-      (= (length str) 0)))
+  (when (stringp str)
+    (= (length str) 0)))
 
 (provide 'helm-tree-sitter-utils)
 

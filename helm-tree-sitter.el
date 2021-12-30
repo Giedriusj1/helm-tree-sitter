@@ -99,15 +99,13 @@ Otherwise we'll default to helm-imenu."
              (when my-fn
                ;; Great, we have a handler for the element node type
                (let ((fun-ret (funcall my-fn node))) ; Let's get the actual text
-                 (if fun-ret
+                 (when fun-ret
                      ;; Each candidate will consist of a list containing (text-string . tree)
                      (cons
                       fun-ret
-                      node ; Store the tree too, so additional actions can be performed later
-                      )
-
-                   ;; Our handler function can return nil to indicate that the particular case was not worthy of showing.
-                   nil )))))
+                      ; Store the tree too, so additional actions can be performed later
+                      node)
+                   )))))
          elements )))
 
 ;; Inspect the tree-sitter-tree and build a flat list with all the nodes.

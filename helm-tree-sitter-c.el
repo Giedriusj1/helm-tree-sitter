@@ -89,30 +89,27 @@
 
     ;; To prevent output from being too verbose, we'll only show structs that have
     ;; field declarations too.
-    (if (tsc-node-p field-declaration-list-node)
+    (when (tsc-node-p field-declaration-list-node)
 
-        (if (not (string= "" type-identifier))
-            (concat
-             (propertize "Struct / "
-                         'face 'italic)
+      (if (not (string= "" type-identifier))
+          (concat
+           (propertize "Struct / "
+                       'face 'italic)
 
-             type-identifier)
+           type-identifier)
 
-          ;; We are dealing with struct that has a field declaration list, but no type-identifier...
-          ;; This must be a typedef case.
-          ;; Let's check if our parent has a type_identifier:
-          (let* ((parent-node (tsc-get-parent (helm-tree-sitter-core-elem-node x))))
-            (when parent-node
-              (let* ((parent-children-alist (helm-tree-sitter-utils-node-children-to-alist parent-node))
-                     (parent-type-identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier parent-children-alist))))
-                (concat
-                 (propertize "typedef Struct / "
-                             'face 'italic)
+        ;; We are dealing with struct that has a field declaration list, but no type-identifier...
+        ;; This must be a typedef case.
+        ;; Let's check if our parent has a type_identifier:
+        (let* ((parent-node (tsc-get-parent (helm-tree-sitter-core-elem-node x))))
+          (when parent-node
+            (let* ((parent-children-alist (helm-tree-sitter-utils-node-children-to-alist parent-node))
+                   (parent-type-identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier parent-children-alist))))
+              (concat
+               (propertize "typedef Struct / "
+                           'face 'italic)
 
-                 parent-type-identifier)))))
-
-      ;; We failed to construct something sensible, so better not show anything
-      nil )))
+               parent-type-identifier))))))))
 
 
 (defun helm-tree-sitter-c-enum-specifier-fn (x)
@@ -125,29 +122,26 @@
 
     ;; To prevent output from being too verbose, we'll only show enums that have
     ;; field declarations too.
-    (if (tsc-node-p enumerator-list-list-node)
-        (if (not (string= "" type-identifier))
-            (concat
-             (propertize "Enum / "
-                         'face 'italic)
+    (when (tsc-node-p enumerator-list-list-node)
+      (if (not (string= "" type-identifier))
+          (concat
+           (propertize "Enum / "
+                       'face 'italic)
 
-             type-identifier)
+           type-identifier)
 
-          ;; We are dealing with enum that has a field declaration list, but no type-identifier...
-          ;; This must be a typedef case.
-          ;; Let's check if our parent has a type_identifier:
-          (let* ((parent-node (tsc-get-parent (helm-tree-sitter-core-elem-node x))))
-            (when parent-node
-              (let* ((parent-children-alist (helm-tree-sitter-utils-node-children-to-alist parent-node))
-                     (parent-type-identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier parent-children-alist))))
-                (concat
-                 (propertize "typedef Enum / "
-                             'face 'italic)
+        ;; We are dealing with enum that has a field declaration list, but no type-identifier...
+        ;; This must be a typedef case.
+        ;; Let's check if our parent has a type_identifier:
+        (let* ((parent-node (tsc-get-parent (helm-tree-sitter-core-elem-node x))))
+          (when parent-node
+            (let* ((parent-children-alist (helm-tree-sitter-utils-node-children-to-alist parent-node))
+                   (parent-type-identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier parent-children-alist))))
+              (concat
+               (propertize "typedef Enum / "
+                           'face 'italic)
 
-                 parent-type-identifier)))))
-
-      ;; We failed to construct something sensible, so better not show anything
-      nil )))
+               parent-type-identifier))))))))
 
 (defun helm-tree-sitter-c-union-specifier-fn (x)
   (unless (helm-tree-sitter-core-elem-p x)
@@ -159,29 +153,26 @@
 
     ;; To prevent output from being too verbose, we'll only show enums that have
     ;; field declarations too.
-    (if (tsc-node-p field-declaration-list)
-        (if (not (string= "" type-identifier))
-            (concat
-             (propertize "Union / "
-                         'face 'italic)
+    (when (tsc-node-p field-declaration-list)
+      (if (not (string= "" type-identifier))
+          (concat
+           (propertize "Union / "
+                       'face 'italic)
 
-             type-identifier)
+           type-identifier)
 
-          ;; We are dealing with union that has a field declaration list, but no type-identifier...
-          ;; This must be a typedef case.
-          ;; Let's check if our parent has a type_identifier:
-          (let* ((parent-node (tsc-get-parent (helm-tree-sitter-core-elem-node x))))
-            (when parent-node
-              (let* ((parent-children-alist (helm-tree-sitter-utils-node-children-to-alist parent-node))
-                     (parent-type-identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier parent-children-alist))))
-                (concat
-                 (propertize "typedef Union / "
-                             'face 'italic)
+        ;; We are dealing with union that has a field declaration list, but no type-identifier...
+        ;; This must be a typedef case.
+        ;; Let's check if our parent has a type_identifier:
+        (let* ((parent-node (tsc-get-parent (helm-tree-sitter-core-elem-node x))))
+          (when parent-node
+            (let* ((parent-children-alist (helm-tree-sitter-utils-node-children-to-alist parent-node))
+                   (parent-type-identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier parent-children-alist))))
+              (concat
+               (propertize "typedef Union / "
+                           'face 'italic)
 
-                 parent-type-identifier)))))
-
-      ;; We failed to construct something sensible, so better not show anything
-      nil )))
+               parent-type-identifier))))))))
 
 (provide 'helm-tree-sitter-c)
 ;;; helm-tree-sitter-c.el ends here

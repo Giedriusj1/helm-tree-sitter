@@ -78,8 +78,7 @@
                        scoped-type
                        type-identifier
                        primitive-type)))
-        (if type
-            (concat type " ")))
+        (when type (concat type " ")))
 
       function-pointer-declarator
       function-reference-declarator
