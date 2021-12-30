@@ -4,7 +4,7 @@
 
 ;; Author: Giedrius Jonikas <giedriusj1@gmail.com>
 ;; Version: 0.1.0
-;; URL: https://gitlab.com/giedriusj1/helm-tree-sitter
+;; URL: https://github.com/Giedriusj1/helm-tree-sitter
 
 ;; Package-Requires: ((emacs "25.1") (helm "3.6.2") (tree-sitter "0.16.1"))
 
