@@ -92,25 +92,26 @@ function looks up `helm-tree-sitter-producer-mode-maps' for major-mode
 appropriate candidate producer map, and then iterates through provided
 list applying candidate producer functions"
 
-  (remq nil
-        (mapcar
-         (lambda (node)
-           (let* ((my-fn (assoc-default
-                          (format "%s" (helm-tree-sitter-core-elem-node-type node))
-                          (let* ((current-mode-producer (symbol-value (assoc-default major-mode helm-tree-sitter-producer-mode-maps)) ))
-                            (if current-mode-producer
-                                current-mode-producer
-                              (error "Major mode is not supported by helm-tree-sitter"))))))
-             (when my-fn
-               ;; Great, we have a handler for the element node type
-               (let ((fun-ret (funcall my-fn node))) ; Let's get the actual text
-                 (when fun-ret
+  (let* ((current-mode-producer (symbol-value (assoc-default major-mode helm-tree-sitter-producer-mode-maps)) ))
+    (if (not current-mode-producer)
+      (error "Major mode is not supported by helm-tree-sitter"))
+
+    (remq nil
+          (mapcar
+           (lambda (node)
+             (let* ((my-fn (assoc-default
+                            (format "%s" (helm-tree-sitter-core-elem-node-type node))
+                            current-mode-producer)))
+               (when my-fn
+                 ;; Great, we have a handler for the element node type
+                 (let ((fun-ret (funcall my-fn node))) ; Let's get the actual text
+                   (when fun-ret
                      ;; Each candidate will consist of a list containing (text-string . tree)
                      (cons
                       fun-ret
-                      ; Store the tree too, so additional actions can be performed later
+                      ;; Store the tree too, so additional actions can be performed later
                       node))))))
-         elements )))
+           elements ))))
 
 
 (defun helm-tree-sitter-build-node-list (node depth)
@@ -127,7 +128,6 @@ This function flattens the tree and returns a list of
            :node-text (tsc-node-text node)
            :start-pos (tsc-node-start-position node)
            :depth depth)
-
           elements)
 
     ;; And now all the child nodes..
