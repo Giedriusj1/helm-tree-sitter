@@ -35,23 +35,29 @@
   '(("use_declaration" . helm-tree-sitter-rust-use-declaration-fn)
     ("struct_item" . helm-tree-sitter-rust-struct-item-fn)
     ("function_item" . helm-tree-sitter-rust-function-definition-fn)
-    ("impl_item" . helm-tree-sitter-rust-impl-item-fn)))
+    ("impl_item" . helm-tree-sitter-rust-impl-item-fn)
+    ("macro_definition" . helm-tree-sitter-rust-macro-definition-fn)))
 
-(defun helm-tree-sitter-rust-use-declaration-fn (x)
-  (unless (helm-tree-sitter-core-elem-p x)
-    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p x)))
+(defun helm-tree-sitter-rust-use-declaration-fn (elem)
+  "Helm-tree-sitter handler for use_declaration nodes in Rust mode.
+Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
+    
+  (unless (helm-tree-sitter-core-elem-p elem)
+    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p elem)))
 
   (concat
    (propertize "Use / "
                'face 'italic)
 
-   (helm-tree-sitter-utils-get-node-text (helm-tree-sitter-core-elem-node x ))))
+   (helm-tree-sitter-utils-get-node-text (helm-tree-sitter-core-elem-node elem))))
 
-(defun helm-tree-sitter-rust-function-definition-fn (x)
-  (unless (helm-tree-sitter-core-elem-p x)
-    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p x)))
+(defun helm-tree-sitter-rust-function-definition-fn (elem)
+  "Helm-tree-sitter handler for function_definition nodes in Rust mode.
+Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
+  (unless (helm-tree-sitter-core-elem-p elem)
+    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p elem)))
 
-  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node x)))
+  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node elem)))
          (visibility-modifier (helm-tree-sitter-utils-get-node-text (alist-get 'visibility_modifier children-alist)))
          (identifier (helm-tree-sitter-utils-get-node-text (alist-get 'identifier children-alist)))
          (type-identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier children-alist)))
@@ -69,11 +75,14 @@
 
       (helm-tree-sitter-utils-prepend-if-not-empty type-identifier " -> ")))))
 
-(defun helm-tree-sitter-rust-struct-item-fn (x)
-  (unless (helm-tree-sitter-core-elem-p x)
-    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p x)))
+(defun helm-tree-sitter-rust-struct-item-fn (elem)
+  "Helm-tree-sitter handler for struct_item nodes in Rust mode.
+Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
+    
+  (unless (helm-tree-sitter-core-elem-p elem)
+    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p elem)))
 
-  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node x)))
+  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node elem)))
          (identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier children-alist))))
 
     (concat
@@ -82,15 +91,33 @@
 
      identifier)))
 
-(defun helm-tree-sitter-rust-impl-item-fn (x)
-  (unless (helm-tree-sitter-core-elem-p x)
-    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p x)))
+(defun helm-tree-sitter-rust-impl-item-fn (elem)
+  "Helm-tree-sitter handler for impl_item nodes in Rust mode.
+Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
+  
+  (unless (helm-tree-sitter-core-elem-p elem)
+    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p elem)))
 
-  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node x)))
+  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node elem)))
          (identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier children-alist))))
 
     (concat
      (propertize "Impl / "
+                 'face 'italic)
+     identifier)))
+
+(defun helm-tree-sitter-rust-macro-definition-fn (elem)
+  "Helm-tree-sitter handler for macro_definition nodes in Rust mode.
+Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
+  
+  (unless (helm-tree-sitter-core-elem-p elem)
+    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p elem)))
+
+  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node elem)))
+         (identifier (helm-tree-sitter-utils-get-node-text (alist-get 'identifier children-alist))))
+
+    (concat
+     (propertize "Macro / "
                  'face 'italic)
      identifier)))
 

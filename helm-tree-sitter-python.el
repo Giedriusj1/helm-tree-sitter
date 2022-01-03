@@ -34,21 +34,27 @@
     ("function_definition"   . helm-tree-sitter-python-function-definition-fn)
     ("class_definition"      . helm-tree-sitter-python-class-definition-fn)))
 
-(defun helm-tree-sitter-python-import-statement-fn (x)
-  (unless (helm-tree-sitter-core-elem-p x)
-    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p x)))
+(defun helm-tree-sitter-python-import-statement-fn (elem)
+  "Helm-tree-sitter handler for import_statement nodes in python mode.
+Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
+    
+  (unless (helm-tree-sitter-core-elem-p elem)
+    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p elem)))
 
   (concat
    (propertize "Dependency / "
                'face 'italic)
 
-   (helm-tree-sitter-utils-get-node-text (helm-tree-sitter-core-elem-node x))))
+   (helm-tree-sitter-utils-get-node-text (helm-tree-sitter-core-elem-node elem))))
 
-(defun helm-tree-sitter-python-function-definition-fn (x)
-  (unless (helm-tree-sitter-core-elem-p x)
-    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p x)))
+(defun helm-tree-sitter-python-function-definition-fn (elem)
+  "Helm-tree-sitter handler for function_definition nodes in python mode.
+Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
+  
+  (unless (helm-tree-sitter-core-elem-p elem)
+    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p elem)))
 
-  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node x)))
+  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node elem)))
          (identifier (helm-tree-sitter-utils-get-node-text (alist-get 'identifier children-alist)))
          (parameters (helm-tree-sitter-utils-get-node-text (alist-get 'parameters children-alist))))
 
@@ -60,11 +66,14 @@
       (helm-tree-sitter-utils-strip-newlines-and-whitespaces parameters)))))
 
 
-(defun helm-tree-sitter-python-class-definition-fn (x)
-  (unless (helm-tree-sitter-core-elem-p x)
-    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p x)))
+(defun helm-tree-sitter-python-class-definition-fn (elem)
+  "Helm-tree-sitter handler for class_definition nodes in python mode.
+Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
+  
+  (unless (helm-tree-sitter-core-elem-p elem)
+    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p elem)))
 
-  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node x)))
+  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node elem)))
          (identifier (helm-tree-sitter-utils-get-node-text (alist-get 'identifier children-alist))))
 
     (concat

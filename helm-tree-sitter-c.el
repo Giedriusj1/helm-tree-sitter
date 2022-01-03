@@ -41,11 +41,14 @@
     ;; ("declaration" . helm-tree-sitter-c-declaration-fn)
     ))
 
-(defun helm-tree-sitter-c-preproc-include-fn (x)
-  (unless (helm-tree-sitter-core-elem-p x)
-    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p x)))
+(defun helm-tree-sitter-c-preproc-include-fn (elem)
+  "Helm-tree-sitter handler for proproc_include nodes in C mode.
+Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
 
-  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node x)))
+  (unless (helm-tree-sitter-core-elem-p elem)
+    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p elem)))
+
+  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node elem)))
          (system-lib (helm-tree-sitter-utils-get-node-text (alist-get 'system_lib_string children-alist)))
          (string-literal (helm-tree-sitter-utils-get-node-text (alist-get 'string_literal children-alist))))
 
@@ -57,11 +60,14 @@
       (replace-regexp-in-string "\"" "" string-literal)))))
 
 
-(defun helm-tree-sitter-c-function-definition-fn (x)
-  (unless (helm-tree-sitter-core-elem-p x)
-    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p x)))
+(defun helm-tree-sitter-c-function-definition-fn (elem)
+  "Helm-tree-sitter handler for function_definition nodes in C mode.
+Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
 
-  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node x)))
+  (unless (helm-tree-sitter-core-elem-p elem)
+    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p elem)))
+
+  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node elem)))
          (storage-class-specifier (helm-tree-sitter-utils-get-node-text (alist-get 'storage_class_specifier children-alist)))
          (primitive-type (helm-tree-sitter-utils-get-node-text (alist-get 'primitive_type children-alist)))
          (type-identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier children-alist)))
@@ -79,11 +85,13 @@
       (helm-tree-sitter-utils-strip-newlines function-declarator)
       (helm-tree-sitter-utils-strip-newlines function-pointer-declarator)))))
 
-(defun helm-tree-sitter-c-struct-specifier-fn (x)
-  (unless (helm-tree-sitter-core-elem-p x)
-    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p x)))
+(defun helm-tree-sitter-c-struct-specifier-fn (elem)
+  "Helm-tree-sitter handler for struct_specifier nodes in C mode.
+Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
+  (unless (helm-tree-sitter-core-elem-p elem)
+    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p elem)))
 
-  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node x)))
+  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node elem)))
          (type-identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier children-alist)))
          (field-declaration-list-node (alist-get 'field_declaration_list children-alist)))
 
@@ -101,7 +109,7 @@
         ;; We are dealing with struct that has a field declaration list, but no type-identifier...
         ;; This must be a typedef case.
         ;; Let's check if our parent has a type_identifier:
-        (let* ((parent-node (tsc-get-parent (helm-tree-sitter-core-elem-node x))))
+        (let* ((parent-node (tsc-get-parent (helm-tree-sitter-core-elem-node elem))))
           (when parent-node
             (let* ((parent-children-alist (helm-tree-sitter-utils-node-children-to-alist parent-node))
                    (parent-type-identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier parent-children-alist))))
@@ -112,11 +120,14 @@
                parent-type-identifier))))))))
 
 
-(defun helm-tree-sitter-c-enum-specifier-fn (x)
-  (unless (helm-tree-sitter-core-elem-p x)
-    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p x)))
+(defun helm-tree-sitter-c-enum-specifier-fn (elem)
+  "Helm-tree-sitter handler for enum_specifier nodes in C mode.
+Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
 
-  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node x)))
+  (unless (helm-tree-sitter-core-elem-p elem)
+    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p elem)))
+
+  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node elem)))
          (type-identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier children-alist)))
          (enumerator-list-list-node (alist-get 'enumerator_list children-alist)))
 
@@ -133,7 +144,7 @@
         ;; We are dealing with enum that has a field declaration list, but no type-identifier...
         ;; This must be a typedef case.
         ;; Let's check if our parent has a type_identifier:
-        (let* ((parent-node (tsc-get-parent (helm-tree-sitter-core-elem-node x))))
+        (let* ((parent-node (tsc-get-parent (helm-tree-sitter-core-elem-node elem))))
           (when parent-node
             (let* ((parent-children-alist (helm-tree-sitter-utils-node-children-to-alist parent-node))
                    (parent-type-identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier parent-children-alist))))
@@ -143,11 +154,14 @@
 
                parent-type-identifier))))))))
 
-(defun helm-tree-sitter-c-union-specifier-fn (x)
-  (unless (helm-tree-sitter-core-elem-p x)
-    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p x)))
+(defun helm-tree-sitter-c-union-specifier-fn (elem)
+  "Helm-tree-sitter handler for union_specifier nodes in C mode.
+Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
 
-  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node x)))
+  (unless (helm-tree-sitter-core-elem-p elem)
+    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p elem)))
+
+  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node elem)))
          (type-identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier children-alist)))
          (field-declaration-list (alist-get 'field_declaration_list children-alist)))
 
@@ -164,7 +178,7 @@
         ;; We are dealing with union that has a field declaration list, but no type-identifier...
         ;; This must be a typedef case.
         ;; Let's check if our parent has a type_identifier:
-        (let* ((parent-node (tsc-get-parent (helm-tree-sitter-core-elem-node x))))
+        (let* ((parent-node (tsc-get-parent (helm-tree-sitter-core-elem-node elem))))
           (when parent-node
             (let* ((parent-children-alist (helm-tree-sitter-utils-node-children-to-alist parent-node))
                    (parent-type-identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier parent-children-alist))))

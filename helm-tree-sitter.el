@@ -48,13 +48,12 @@
         (rust-mode . helm-tree-sitter-rust-candidate-producer)
         (rustic-mode . helm-tree-sitter-rust-candidate-producer)))
 
-;; If tree-sitter-tree is available and we know how to deal with major-mode,
-;; we'll use helm-tree-sitter. Otherwise we'll default to helm-imenu
 ;;;###autoload
 (defun helm-tree-sitter-or-imenu ()
-  "Helm interface for tree-sitter. If tree-sitter is enabled and we
-know how to deal with major mode, we'll use helm-tree-sitter.
-Otherwise we'll default to helm-imenu."
+  "Helm interface for tree-sitter.
+If tree-sitter is enabled and we
+know how to deal with major mode, we'll use `helm-tree-sitter'.
+Otherwise we'll default to `helm-imenu'."
   (interactive)
 
   (if (and tree-sitter-tree
@@ -66,6 +65,9 @@ Otherwise we'll default to helm-imenu."
 (defun helm-tree-sitter ()
   "Helm interface for tree-sitter."
   (interactive)
+
+  (if (not tree-sitter-tree)
+      (error "Tree-sitter minor mode is not loaded"))
 
   ;; We'll be copying fontified text from the buffer, so we want to
   ;; make sure that it's been properly fontifier before we do anything.
@@ -83,19 +85,22 @@ Otherwise we'll default to helm-imenu."
         :candidate-number-limit 9999
         :buffer "*helm tree-sitter*"))
 
-(defun helm-tree-sitter-get-candidate-producer-for-current-mode ()
-  (let* ((our-producer (symbol-value (assoc-default major-mode helm-tree-sitter-producer-mode-maps)) ))
-    (if our-producer
-        our-producer
-      (error "major mode is not supported by helm-tree-sitter"))))
-
 (defun helm-tree-sitter-core-elements-to-helm-candidates (elements)
+  "Helm-tree-sitter internal function.
+Argument ELEMENTS is a flat list of `helm-tree-sitter-core-elem's. This
+function looks up `helm-tree-sitter-producer-mode-maps' for major-mode
+appropriate candidate producer map, and then iterates through provided
+list applying candidate producer functions"
+
   (remq nil
         (mapcar
          (lambda (node)
            (let* ((my-fn (assoc-default
                           (format "%s" (helm-tree-sitter-core-elem-node-type node))
-                          (helm-tree-sitter-get-candidate-producer-for-current-mode))))
+                          (let* ((current-mode-producer (symbol-value (assoc-default major-mode helm-tree-sitter-producer-mode-maps)) ))
+                            (if current-mode-producer
+                                current-mode-producer
+                              (error "Major mode is not supported by helm-tree-sitter"))))))
              (when my-fn
                ;; Great, we have a handler for the element node type
                (let ((fun-ret (funcall my-fn node))) ; Let's get the actual text
@@ -108,9 +113,13 @@ Otherwise we'll default to helm-imenu."
                    )))))
          elements )))
 
-;; Inspect the tree-sitter-tree and build a flat list with all the nodes.
-;; This will later be used to build helm candidates.
+
 (defun helm-tree-sitter-build-node-list (node depth)
+"Helm-tree-sitter internal function.
+This is a recursive function, and initially NODE is the tree-sitter root node.
+Argument DEPTH is used to track how deep in the tree the element was.
+This function flattens the tree and returns a list of
+`helm-tree-sitter-core-elem's for further processing."
   (let ((elements '()))
     ;; Add the current node
     (push (make-helm-tree-sitter-core-elem
@@ -119,7 +128,7 @@ Otherwise we'll default to helm-imenu."
            :node-text (tsc-node-text node)
            :start-pos (tsc-node-start-position node)
            :depth depth)
-          
+
           elements)
 
     ;; And now all the child nodes..

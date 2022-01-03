@@ -33,13 +33,19 @@
 (require 'tsc)
 
 (defun helm-tree-sitter-utils-node-children-to-alist (node)
-  (let ((pl '()))
+  "Helm-tree-sitter utility function for creating an alist of nodes children.
+Argument NODE is `helm-tree-sitter-core-elem' representing the node."
+
+  (let ((al '()))
     (dotimes (e (tsc-count-named-children node))
       (let* ((child-node (tsc-get-nth-named-child node e)))
-        (setf (alist-get (tsc-node-type child-node) pl) child-node)))
-    pl))
+        (setf (alist-get (tsc-node-type child-node) al) child-node)))
+    al))
 
 (defun helm-tree-sitter-utils-strip-newlines-and-whitespaces (str)
+  "Helm-tree-sitter utility function for stripping off newlines and whitespaces.
+Argument STR is a string."
+
   (unless (stringp str)
     (signal 'wrong-type-argument (list 'stringp str)))
 
@@ -53,6 +59,10 @@
 ;; We use this instead of (tsc-node-text node), because this way
 ;; we can get fontified text.
 (defun helm-tree-sitter-utils-get-node-text (node)
+  "Helm-tree-sitter utility function for copying propertized text from buffer.
+Argument NODE is tree-sitter node.
+Empty string is returned if no node is provided."
+
   (if (tsc-node-p node)
       (buffer-substring
        (tsc-node-start-position node)
@@ -62,23 +72,33 @@
 ;; Same as function above, but we'll return nil if no node is
 ;; provided.
 (defun helm-tree-sitter-utils-get-node-text-or-nil (node)
+  "Helm-tree-sitter utility function for copying propertized text from buffer.
+Argument NODE is tree-sitter node."
   (when (tsc-node-p node)
     (buffer-substring
      (tsc-node-start-position node)
      (tsc-node-end-position node))))
 
 (defun helm-tree-sitter-utils-append-space-if-not-empty(str)
+  "Append space if provided string is not empty.
+Argument STR is a string."
   (if (not (helm-tree-sitter-utils-empty-string str))
       (concat str " ") str))
 
 (defun helm-tree-sitter-utils-prepend-if-not-empty (str prepend)
+  "Prepend to string if provided string is not empty.
+Arguments STR and PREPEND are strings."
   (when (not (= (length str) 0))
     (concat prepend str)))
 
 (defun helm-tree-sitter-utils-strip-newlines (str)
+  "Strip newlines from provided string.
+Argument STR is a string."
   (replace-regexp-in-string "\n" "" str))
 
 (defun helm-tree-sitter-utils-empty-string (str)
+  "Return t if provided string is empty.
+Argument STR is a string."
   (when (stringp str)
     (= (length str) 0)))
 

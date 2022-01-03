@@ -45,11 +45,14 @@
     ;; ("declaration" . helm-tree-sitter-cpp-declaration-fn)
     ))
 
-(defun helm-tree-sitter-cpp-function-definition-fn (x)
-  (unless (helm-tree-sitter-core-elem-p x)
-    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p x)))
+(defun helm-tree-sitter-cpp-function-definition-fn (elem)
+  "Helm-tree-sitter handler for function_definition nodes in C++ mode.
+Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
 
-  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node x)))
+  (unless (helm-tree-sitter-core-elem-p elem)
+    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p elem)))
+
+  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node elem)))
          ;; Let's get the return type of the function.
          ;; Only one kind will be present.
 
@@ -84,13 +87,14 @@
       function-reference-declarator
       function-declarator))))
 
+(defun helm-tree-sitter-cpp-class-specifier-fn (elem)
+  "Helm-tree-sitter handler for class_specifier nodes in C++ mode.
+Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
 
+  (unless (helm-tree-sitter-core-elem-p elem)
+    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p elem)))
 
-(defun helm-tree-sitter-cpp-class-specifier-fn (x)
-  (unless (helm-tree-sitter-core-elem-p x)
-    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p x)))
-
-  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node x)))
+  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node elem)))
          (type-identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier children-alist))))
 
     (concat
