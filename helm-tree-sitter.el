@@ -27,6 +27,18 @@
 ;; Currently only C, C++, Python and Rust are supported, but adding more
 ;; languages in the future should be trivial.
 
+
+;; Usage:
+;; (require 'helm-tree-sitter)
+;; and then (helm-tree-sitter) or (helm-tree-sitter-or-imenu)
+
+;; A debug utility is also provided:
+;; (require 'helm-tree-sitter-debug)
+;; (helm-tree-sitter-debug)
+;; This works with all modes and simply lists all available nodes
+;; in the existing tree-sitter-tree.
+
+
 ;;; Code:
 (require 'helm)
 (require 'helm-imenu)
@@ -78,7 +90,8 @@ Otherwise we'll default to `helm-imenu'."
 
   (helm :sources
         (helm-build-sync-source "Tree-sitter"
-          :candidates (helm-tree-sitter-core-elements-to-helm-candidates (helm-tree-sitter-core-build-node-list (tsc-root-node tree-sitter-tree) 0))
+          :candidates (helm-tree-sitter-core-elements-to-helm-candidates
+                       (helm-tree-sitter-core-build-node-list (tsc-root-node tree-sitter-tree) 0))
           :action (lambda (x)
                     (goto-char (helm-tree-sitter-core-elem-start-pos x)))
           :fuzzy-match t)
