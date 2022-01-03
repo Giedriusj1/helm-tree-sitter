@@ -32,5 +32,56 @@
 ;; tree-sitter element. Holds everything we care about for each of the candidates.
 (cl-defstruct helm-tree-sitter-core-elem node node-type node-text start-pos depth)
 
+(defun helm-tree-sitter-core-elements-to-helm-candidates (elements)
+  "Helm-tree-sitter internal function.
+Argument ELEMENTS is a flat list of `helm-tree-sitter-core-elem's. This
+function looks up `helm-tree-sitter-producer-mode-maps' for major-mode
+appropriate candidate producer map, and then iterates through provided
+list applying candidate producer functions"
+
+  (let* ((current-mode-producer (symbol-value (assoc-default major-mode helm-tree-sitter-producer-mode-maps)) ))
+    (if (not current-mode-producer)
+      (error "Major mode is not supported by helm-tree-sitter"))
+
+    (remq nil
+          (mapcar
+           (lambda (node)
+             (let* ((my-fn (assoc-default
+                            (format "%s" (helm-tree-sitter-core-elem-node-type node))
+                            current-mode-producer)))
+               (when my-fn
+                 ;; Great, we have a handler for the element node type
+                 (let ((fun-ret (funcall my-fn node))) ; Let's get the actual text
+                   (when fun-ret
+                     ;; Each candidate will consist of a list containing (text-string . tree)
+                     (cons
+                      fun-ret
+                      ;; Store the tree too, so additional actions can be performed later
+                      node))))))
+           elements))))
+
+(defun helm-tree-sitter-core-build-node-list (node depth)
+"Helm-tree-sitter internal function.
+This is a recursive function, and initially NODE is the tree-sitter root node.
+Argument DEPTH is used to track how deep in the tree the element was.
+This function flattens the tree and returns a list of
+`helm-tree-sitter-core-elem's for further processing."
+  (let ((elements '()))
+    ;; Add the current node
+    (push (make-helm-tree-sitter-core-elem
+           :node node
+           :node-type (tsc-node-type node)
+           :node-text (tsc-node-text node)
+           :start-pos (tsc-node-start-position node)
+           :depth depth)
+          elements)
+
+    ;; And now all the child nodes..
+    (dotimes (e (tsc-count-named-children node))
+      (setq elements (append  elements (helm-tree-sitter-core-build-node-list (tsc-get-nth-named-child node e) (1+ depth)))))
+
+    elements))
+
+
 (provide 'helm-tree-sitter-core)
 ;;; helm-tree-sitter-core.el ends here
