@@ -109,8 +109,7 @@ list applying candidate producer functions"
                      (cons
                       fun-ret
                       ; Store the tree too, so additional actions can be performed later
-                      node)
-                   )))))
+                      node))))))
          elements )))
 
 
