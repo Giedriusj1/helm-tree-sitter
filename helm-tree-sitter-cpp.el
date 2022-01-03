@@ -29,16 +29,15 @@
 (require 'helm-tree-sitter-core)
 
 (defvar helm-tree-sitter-cpp-candidate-producer
-  '(
-    ;; We'll borrow some function from C
-    ("preproc_include"     . helm-tree-sitter-c-preproc-include-fn)
-    ("enum_specifier" . helm-tree-sitter-c-enum-specifier-fn)
-    ("union_specifier" . helm-tree-sitter-c-union-specifier-fn)
+  '( ;; We'll borrow some function from C
+    ("preproc_include" .   helm-tree-sitter-c-preproc-include-fn)
+    ("enum_specifier"  .   helm-tree-sitter-c-enum-specifier-fn)
+    ("union_specifier" .   helm-tree-sitter-c-union-specifier-fn)
 
     ;; Stuff that is unique for C++
-    ("function_definition" . helm-tree-sitter-cpp-function-definition-fn)
-    ("class_specifier"     . helm-tree-sitter-cpp-class-specifier-fn)
-
+    ("function_definition"  .      helm-tree-sitter-cpp-function-definition-fn)
+    ("class_specifier"      .      helm-tree-sitter-cpp-class-specifier-fn)
+    ("namespace_definition" .      helm-tree-sitter-cpp-namespace-definition-fn)
 
     ;; We get very spammy output if we try to show every declaration,
     ;; so we'll just ignore them for now.
@@ -73,7 +72,8 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
          (function-pointer-declarator (helm-tree-sitter-utils-get-node-text (alist-get 'pointer_declarator children-alist))))
 
     (concat
-     (propertize "Function / "
+     (helm-tree-sitter-utils-prepend-depth-if-needed elem)
+     (propertize "Function: "
                  'face 'italic)
 
      (concat
@@ -98,9 +98,28 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
          (type-identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier children-alist))))
 
     (concat
-     (propertize "Class specifier / "
+     (helm-tree-sitter-utils-prepend-depth-if-needed elem)
+     
+     (propertize "Class: "
                  'face 'italic)
      type-identifier)))
+
+
+(defun helm-tree-sitter-cpp-namespace-definition-fn (elem)
+  "Helm-tree-sitter handler for namespace_definition nodes in C++ mode.
+Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
+
+  (unless (helm-tree-sitter-core-elem-p elem)
+    (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p elem)))
+
+  (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node elem)))
+         (identifier (helm-tree-sitter-utils-get-node-text (alist-get 'identifier children-alist))))
+
+    (concat
+     (helm-tree-sitter-utils-prepend-depth-if-needed elem)
+     (propertize "Namespace: "
+                 'face 'italic)
+     identifier)))
 
 (provide 'helm-tree-sitter-cpp)
 

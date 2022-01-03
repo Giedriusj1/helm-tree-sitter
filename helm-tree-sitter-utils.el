@@ -35,7 +35,6 @@
 (defun helm-tree-sitter-utils-node-children-to-alist (node)
   "Helm-tree-sitter utility function for creating an alist of nodes children.
 Argument NODE is `helm-tree-sitter-core-elem' representing the node."
-
   (let ((al '()))
     (dotimes (e (tsc-count-named-children node))
       (let* ((child-node (tsc-get-nth-named-child node e)))
@@ -102,6 +101,14 @@ Argument STR is a string."
   (when (stringp str)
     (= (length str) 0)))
 
-(provide 'helm-tree-sitter-utils)
+(defun helm-tree-sitter-utils-prepend-depth-if-needed (elem)
+  "Prepend some spaces to helm candidate.
+This helps to identify depth of the node in question.
+Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
+  (if (< (helm-tree-sitter-core-elem-depth elem) 2) ""
+    (concat
+     (make-string (helm-tree-sitter-core-elem-depth elem) ?\ )
+     "├► ")))
 
+(provide 'helm-tree-sitter-utils)
 ;;; helm-tree-sitter-utils.el ends here

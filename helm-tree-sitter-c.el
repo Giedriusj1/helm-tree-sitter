@@ -53,7 +53,7 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
          (string-literal (helm-tree-sitter-utils-get-node-text (alist-get 'string_literal children-alist))))
 
     (concat
-     (propertize "Include / "
+     (propertize "Include: "
                  'face 'italic)
      (concat
       system-lib
@@ -75,7 +75,7 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
          (function-pointer-declarator (helm-tree-sitter-utils-get-node-text (alist-get 'pointer_declarator children-alist))))
 
     (concat
-     (propertize "Function / "
+     (propertize "Function: "
                  'face 'italic)
      (concat
       (helm-tree-sitter-utils-append-space-if-not-empty storage-class-specifier)
@@ -101,7 +101,7 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
 
       (if (not (string= "" type-identifier))
           (concat
-           (propertize "Struct / "
+           (propertize "Struct: "
                        'face 'italic)
 
            type-identifier)
@@ -114,7 +114,7 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
             (let* ((parent-children-alist (helm-tree-sitter-utils-node-children-to-alist parent-node))
                    (parent-type-identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier parent-children-alist))))
               (concat
-               (propertize "typedef Struct / "
+               (propertize "typedef Struct: "
                            'face 'italic)
 
                parent-type-identifier))))))))
@@ -136,7 +136,8 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
     (when (tsc-node-p enumerator-list-list-node)
       (if (not (string= "" type-identifier))
           (concat
-           (propertize "Enum / "
+           (helm-tree-sitter-utils-prepend-depth-if-needed elem)
+           (propertize "Enum: "
                        'face 'italic)
 
            type-identifier)
@@ -149,7 +150,8 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
             (let* ((parent-children-alist (helm-tree-sitter-utils-node-children-to-alist parent-node))
                    (parent-type-identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier parent-children-alist))))
               (concat
-               (propertize "typedef Enum / "
+               (helm-tree-sitter-utils-prepend-depth-if-needed elem)
+               (propertize "typedef Enum: "
                            'face 'italic)
 
                parent-type-identifier))))))))
@@ -170,7 +172,8 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
     (when (tsc-node-p field-declaration-list)
       (if (not (string= "" type-identifier))
           (concat
-           (propertize "Union / "
+           (helm-tree-sitter-utils-prepend-depth-if-needed elem)
+           (propertize "Union: "
                        'face 'italic)
 
            type-identifier)
@@ -183,7 +186,8 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
             (let* ((parent-children-alist (helm-tree-sitter-utils-node-children-to-alist parent-node))
                    (parent-type-identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier parent-children-alist))))
               (concat
-               (propertize "typedef Union / "
+               (helm-tree-sitter-utils-prepend-depth-if-needed elem)
+               (propertize "typedef Union: "
                            'face 'italic)
 
                parent-type-identifier))))))))

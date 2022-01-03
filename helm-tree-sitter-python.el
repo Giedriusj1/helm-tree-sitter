@@ -42,7 +42,8 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
     (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p elem)))
 
   (concat
-   (propertize "Dependency / "
+   (helm-tree-sitter-utils-prepend-depth-if-needed elem)
+   (propertize "Dependency: "
                'face 'italic)
 
    (helm-tree-sitter-utils-get-node-text (helm-tree-sitter-core-elem-node elem))))
@@ -59,7 +60,8 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
          (parameters (helm-tree-sitter-utils-get-node-text (alist-get 'parameters children-alist))))
 
     (concat
-     (propertize "Function / "
+     (helm-tree-sitter-utils-prepend-depth-if-needed elem)
+     (propertize "Function: "
                  'face 'italic)
      (concat
       identifier
@@ -77,7 +79,8 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
          (identifier (helm-tree-sitter-utils-get-node-text (alist-get 'identifier children-alist))))
 
     (concat
-     (propertize "Class / "
+     (helm-tree-sitter-utils-prepend-depth-if-needed elem)
+     (propertize "Class: "
                  'face 'italic)
      identifier)))
 

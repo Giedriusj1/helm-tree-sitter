@@ -46,7 +46,8 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
     (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p elem)))
 
   (concat
-   (propertize "Use / "
+   (helm-tree-sitter-utils-prepend-depth-if-needed elem)
+   (propertize "Use: "
                'face 'italic)
 
    (helm-tree-sitter-utils-get-node-text (helm-tree-sitter-core-elem-node elem))))
@@ -64,7 +65,8 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
          (parameters (helm-tree-sitter-utils-get-node-text (alist-get 'parameters children-alist))))
 
     (concat
-     (propertize "Fn / "
+     (helm-tree-sitter-utils-prepend-depth-if-needed elem)
+     (propertize "Fn: "
                  'face 'italic)
 
      (concat
@@ -86,7 +88,8 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
          (identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier children-alist))))
 
     (concat
-     (propertize "Struct / "
+     (helm-tree-sitter-utils-prepend-depth-if-needed elem)
+     (propertize "Struct: "
                  'face 'italic)
 
      identifier)))
@@ -102,7 +105,8 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
          (identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier children-alist))))
 
     (concat
-     (propertize "Impl / "
+     (helm-tree-sitter-utils-prepend-depth-if-needed elem)
+     (propertize "Impl: "
                  'face 'italic)
      identifier)))
 
@@ -117,7 +121,8 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
          (identifier (helm-tree-sitter-utils-get-node-text (alist-get 'identifier children-alist))))
 
     (concat
-     (propertize "Macro / "
+     (helm-tree-sitter-utils-prepend-depth-if-needed elem)
+     (propertize "Macro: "
                  'face 'italic)
      identifier)))
 
