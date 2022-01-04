@@ -50,14 +50,17 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
 
   (let* ((children-alist (helm-tree-sitter-utils-node-children-to-alist (helm-tree-sitter-core-elem-node elem)))
          (system-lib (helm-tree-sitter-utils-get-node-text (alist-get 'system_lib_string children-alist)))
-         (string-literal (helm-tree-sitter-utils-get-node-text (alist-get 'string_literal children-alist))))
+         (string-literal (helm-tree-sitter-utils-get-node-text (alist-get 'string_literal children-alist)))
+
+         ;; In case of preprocessor include
+         (identifier (helm-tree-sitter-utils-get-node-text (alist-get 'identifier children-alist))))
 
     (concat
      (propertize "Include: "
                  'face 'italic)
-     (concat
-      system-lib
-      (replace-regexp-in-string "\"" "" string-literal)))))
+     (concat identifier
+             system-lib
+             (replace-regexp-in-string "\"" "" string-literal)))))
 
 
 (defun helm-tree-sitter-c-function-definition-fn (elem)
