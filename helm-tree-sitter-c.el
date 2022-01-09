@@ -26,9 +26,6 @@
 
 ;;; Code:
 
-(require 'helm-tree-sitter-utils)
-(require 'helm-tree-sitter-core)
-
 (defvar helm-tree-sitter-c-candidate-producer
   '(("function_definition" . helm-tree-sitter-c-function-definition-fn)
     ("preproc_include" . helm-tree-sitter-c-preproc-include-fn)

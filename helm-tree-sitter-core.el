@@ -26,20 +26,17 @@
 
 ;;; Code:
 
-(require 'helm)
-(require 'tree-sitter)
-
 ;; tree-sitter element. Holds everything we care about for each of the candidates.
 (cl-defstruct helm-tree-sitter-core-elem node node-type node-text start-pos depth)
 
 (defun helm-tree-sitter-core-elements-to-helm-candidates (elements)
   "Helm-tree-sitter internal function.
 Argument ELEMENTS is a flat list of `helm-tree-sitter-core-elem's. This
-function looks up `helm-tree-sitter-producer-mode-maps' for major-mode
+function looks up `helm-tree-sitter-producer-mode-maps' for `major-mode'
 appropriate candidate producer map, and then iterates through provided
 list applying candidate producer functions"
 
-  (let* ((current-mode-producer (symbol-value (assoc-default major-mode helm-tree-sitter-producer-mode-maps)) ))
+  (let* ((current-mode-producer (symbol-value (assoc-default major-mode helm-tree-sitter-producer-mode-maps))))
     (if (not current-mode-producer)
       (error "Major mode is not supported by helm-tree-sitter"))
 

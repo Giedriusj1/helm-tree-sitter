@@ -25,8 +25,6 @@
 ;; Provides function for dealing with Python code
 
 ;;; Code:
-(require 'helm-tree-sitter-utils)
-(require 'helm-tree-sitter-core)
 
 (defvar helm-tree-sitter-python-candidate-producer
   '(("import_statement"      . helm-tree-sitter-python-import-statement-fn)
