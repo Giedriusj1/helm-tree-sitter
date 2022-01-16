@@ -28,6 +28,13 @@
 
 (require 'tsc)
 
+(defvar helm-tree-sitter-producer-mode-maps
+      '((python-mode . helm-tree-sitter-python-candidate-producer)
+        (c++-mode . helm-tree-sitter-cpp-candidate-producer)
+        (c-mode . helm-tree-sitter-c-candidate-producer)
+        (rust-mode . helm-tree-sitter-rust-candidate-producer)
+        (rustic-mode . helm-tree-sitter-rust-candidate-producer)))
+
 ;; tree-sitter element. Holds everything we care about for each of the candidates.
 (cl-defstruct helm-tree-sitter-core-elem node node-type node-text start-pos depth)
 

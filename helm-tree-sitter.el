@@ -52,14 +52,6 @@
 (require 'helm-tree-sitter-python)
 (require 'helm-tree-sitter-rust)
 
-
-(defvar helm-tree-sitter-producer-mode-maps
-      '((python-mode . helm-tree-sitter-python-candidate-producer)
-        (c++-mode . helm-tree-sitter-cpp-candidate-producer)
-        (c-mode . helm-tree-sitter-c-candidate-producer)
-        (rust-mode . helm-tree-sitter-rust-candidate-producer)
-        (rustic-mode . helm-tree-sitter-rust-candidate-producer)))
-
 ;;;###autoload
 (defun helm-tree-sitter-or-imenu ()
   "Helm interface for tree-sitter.
