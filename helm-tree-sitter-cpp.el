@@ -26,6 +26,8 @@
 
 ;;; Code:
 
+(require 'helm-tree-sitter-utils)
+
 (defvar helm-tree-sitter-cpp-candidate-producer
   '( ;; We'll borrow some function from C
     ("preproc_include" .   helm-tree-sitter-c-preproc-include-fn)

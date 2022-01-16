@@ -26,6 +26,8 @@
 
 ;;; Code:
 
+(require 'tsc)
+
 ;; tree-sitter element. Holds everything we care about for each of the candidates.
 (cl-defstruct helm-tree-sitter-core-elem node node-type node-text start-pos depth)
 

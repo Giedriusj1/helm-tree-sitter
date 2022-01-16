@@ -29,6 +29,8 @@
 
 ;;; Code:
 
+(require 'helm-tree-sitter-utils)
+
 (defvar helm-tree-sitter-rust-candidate-producer
   '(("use_declaration" . helm-tree-sitter-rust-use-declaration-fn)
     ("struct_item" . helm-tree-sitter-rust-struct-item-fn)
