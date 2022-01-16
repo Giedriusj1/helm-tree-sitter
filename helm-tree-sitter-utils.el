@@ -31,6 +31,7 @@
 ;;; Code:
 
 (require 'tsc)
+(require 'helm-tree-sitter-core)
 
 (defun helm-tree-sitter-utils-node-children-to-alist (node)
   "Helm-tree-sitter utility function for creating an alist of nodes children.
