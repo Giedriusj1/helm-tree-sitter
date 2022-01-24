@@ -76,16 +76,17 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
      (propertize "Function: "
                  'face 'italic)
 
-     (concat
-      (let* ((type (or template-type
-                       scoped-type
-                       type-identifier
-                       primitive-type)))
-        (when type (concat type " ")))
+     (helm-tree-sitter-utils-strip-newlines-and-whitespaces
+      (concat
+       (let* ((type (or template-type
+                        scoped-type
+                        type-identifier
+                        primitive-type)))
+         (when type (concat type " ")))
 
-      function-pointer-declarator
-      function-reference-declarator
-      function-declarator))))
+       function-pointer-declarator
+       function-reference-declarator
+       function-declarator)))))
 
 (defun helm-tree-sitter-cpp-class-specifier-fn (elem)
   "Helm-tree-sitter handler for class_specifier nodes in C++ mode.

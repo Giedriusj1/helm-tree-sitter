@@ -50,9 +50,9 @@ Argument STR is a string."
     (signal 'wrong-type-argument (list 'stringp str)))
 
   (replace-regexp-in-string
-   "\s" ""
+   "\n" ""
    (replace-regexp-in-string
-    "\n" ""
+    "[\s\t]+" " "
     str)))
 
 ;; Copy text from buffer between node-start-byte and node-end-byte.

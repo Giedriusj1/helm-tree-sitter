@@ -79,13 +79,15 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
     (concat
      (propertize "Function: "
                  'face 'italic)
-     (concat
-      (helm-tree-sitter-utils-append-space-if-not-empty storage-class-specifier)
-      primitive-type
-      type-identifier
-      " "
-      (helm-tree-sitter-utils-strip-newlines function-declarator)
-      (helm-tree-sitter-utils-strip-newlines function-pointer-declarator)))))
+
+     (helm-tree-sitter-utils-strip-newlines-and-whitespaces
+      (concat
+       (helm-tree-sitter-utils-append-space-if-not-empty storage-class-specifier)
+       primitive-type
+       type-identifier
+       " "
+       (helm-tree-sitter-utils-strip-newlines function-declarator)
+       (helm-tree-sitter-utils-strip-newlines function-pointer-declarator))))))
 
 (defun helm-tree-sitter-c-struct-specifier-fn (elem)
   "Helm-tree-sitter handler for struct_specifier nodes in C mode.

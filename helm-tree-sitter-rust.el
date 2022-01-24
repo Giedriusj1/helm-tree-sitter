@@ -41,7 +41,7 @@
 (defun helm-tree-sitter-rust-use-declaration-fn (elem)
   "Helm-tree-sitter handler for use_declaration nodes in Rust mode.
 Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
-    
+
   (unless (helm-tree-sitter-core-elem-p elem)
     (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p elem)))
 
@@ -69,18 +69,19 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
      (propertize "Fn: "
                  'face 'italic)
 
-     (concat
-      (helm-tree-sitter-utils-append-space-if-not-empty visibility-modifier)
-      (helm-tree-sitter-utils-append-space-if-not-empty type-identifier)
-      identifier
-      parameters
+     (helm-tree-sitter-utils-strip-newlines-and-whitespaces
+      (concat
+       (helm-tree-sitter-utils-append-space-if-not-empty visibility-modifier)
+       (helm-tree-sitter-utils-append-space-if-not-empty type-identifier)
+       identifier
+       parameters
 
-      (helm-tree-sitter-utils-prepend-if-not-empty type-identifier " -> ")))))
+       (helm-tree-sitter-utils-prepend-if-not-empty type-identifier " -> "))))))
 
 (defun helm-tree-sitter-rust-struct-item-fn (elem)
   "Helm-tree-sitter handler for struct_item nodes in Rust mode.
 Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
-    
+
   (unless (helm-tree-sitter-core-elem-p elem)
     (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p elem)))
 
@@ -97,7 +98,7 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
 (defun helm-tree-sitter-rust-impl-item-fn (elem)
   "Helm-tree-sitter handler for impl_item nodes in Rust mode.
 Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
-  
+
   (unless (helm-tree-sitter-core-elem-p elem)
     (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p elem)))
 
@@ -113,7 +114,7 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
 (defun helm-tree-sitter-rust-macro-definition-fn (elem)
   "Helm-tree-sitter handler for macro_definition nodes in Rust mode.
 Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
-  
+
   (unless (helm-tree-sitter-core-elem-p elem)
     (signal 'wrong-type-argument (list 'helm-tree-sitter-core-elem-p elem)))
 
