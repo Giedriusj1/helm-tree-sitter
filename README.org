@@ -4,3 +4,6 @@
 Helm interface to tree-sitter
 
 Currently supported languages: C/C++, Python and Rust
+
+
+[[https://github.com/Giedriusj1/helm-tree-sitter/raw/main/helm-tree-sitter.gif]]
