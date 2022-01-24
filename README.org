@@ -5,5 +5,20 @@ Helm interface to tree-sitter
 
 Currently supported languages: C/C++, Python and Rust
 
+#+begin_src elisp
+;; Usage:
+(require 'helm-tree-sitter)
+;; and then:
+(helm-tree-sitter)
+;; or:
+(helm-tree-sitter-or-imenu)
+
+;; A debug utility is also provided:
+(require 'helm-tree-sitter-debug)
+(helm-tree-sitter-debug)
+
+;; This works with all modes and simply lists all available nodes
+;; in the existing tree-sitter-tree.
+#+end_src
 
 [[https://github.com/Giedriusj1/helm-tree-sitter/raw/main/helm-tree-sitter.gif]]
