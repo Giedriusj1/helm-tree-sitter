@@ -12,13 +12,10 @@ Usage:
 (helm-tree-sitter-or-imenu)
 #+end_src
 
-A debug utility is also provided:
+A debug utility, which simply lists all available nodes in the existing tree-sitter tree is also provided:
 #+begin_src elisp
 (require 'helm-tree-sitter-debug)
 (helm-tree-sitter-debug)
 #+end_src
-
-This works with all modes and simply lists all available nodes
-in the existing tree-sitter-tree.
 
 [[https://github.com/Giedriusj1/helm-tree-sitter/raw/main/helm-tree-sitter.gif]]
