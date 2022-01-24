@@ -73,6 +73,8 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
          (storage-class-specifier (helm-tree-sitter-utils-get-node-text (alist-get 'storage_class_specifier children-alist)))
          (primitive-type (helm-tree-sitter-utils-get-node-text (alist-get 'primitive_type children-alist)))
          (type-identifier (helm-tree-sitter-utils-get-node-text (alist-get 'type_identifier children-alist)))
+         (sized-type-specifier (helm-tree-sitter-utils-get-node-text (alist-get 'sized_type_specifier children-alist)))
+         (struct-specifier (helm-tree-sitter-utils-get-node-text (alist-get 'struct_specifier children-alist)))
          (function-declarator (helm-tree-sitter-utils-get-node-text (alist-get 'function_declarator children-alist)))
          (function-pointer-declarator (helm-tree-sitter-utils-get-node-text (alist-get 'pointer_declarator children-alist))))
 
@@ -83,8 +85,12 @@ Argument ELEM is `helm-tree-sitter-core-elem' representing the node."
      (helm-tree-sitter-utils-strip-newlines-and-whitespaces
       (concat
        (helm-tree-sitter-utils-append-space-if-not-empty storage-class-specifier)
+
+       struct-specifier
+       sized-type-specifier
        primitive-type
        type-identifier
+       
        " "
        (helm-tree-sitter-utils-strip-newlines function-declarator)
        (helm-tree-sitter-utils-strip-newlines function-pointer-declarator))))))
