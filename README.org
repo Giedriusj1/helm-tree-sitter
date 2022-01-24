@@ -8,8 +8,10 @@ Currently supported languages: C/C++, Python and Rust. Adding support for additi
 Usage:
 #+begin_src elisp
 (require 'helm-tree-sitter)
-
 (helm-tree-sitter-or-imenu)
+;; or
+(helm-tree-sitter)
+
 #+end_src
 
 A debug utility, which simply lists all available nodes in the existing tree-sitter tree is also provided:
