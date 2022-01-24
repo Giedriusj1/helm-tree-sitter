@@ -3,7 +3,7 @@
 
 Helm interface to tree-sitter
 
-Currently supported languages: C/C++, Python and Rust
+Currently supported languages: C/C++, Python and Rust. Adding support for additional languages should be trivial. PRs are very much welcome!
 
 Usage:
 #+begin_src elisp
