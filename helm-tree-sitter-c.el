@@ -1,6 +1,6 @@
 ;;; helm-tree-sitter-c.el --- Helm interface for tree-sitter -*- lexical-binding: t -*-
 
-;; Copyright (C) 2021 Giedrius Jonikas <giedriusj1@gmail.com>
+;; Copyright (C) 2021 ~ 2022 Giedrius Jonikas <giedriusj1@gmail.com>
 
 ;; Author: Giedrius Jonikas <giedriusj1@gmail.com>
 ;; Version: 0.1.0
