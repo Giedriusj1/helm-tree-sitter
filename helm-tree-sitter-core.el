@@ -47,24 +47,29 @@ list applying candidate producer functions"
 
   (let* ((current-mode-producer (symbol-value (assoc-default major-mode helm-tree-sitter-producer-mode-maps))))
     (if (not current-mode-producer)
-      (error "Major mode is not supported by helm-tree-sitter"))
+        ;; We don't have a specific producer for the current mode, so we'll
+        ;; just use a default one that lists all existing nodes.
+        (mapcar
+         (lambda (node)
+           (cons (helm-tree-sitter-default-fn node) node))
+         elements)
 
-    (remq nil
-          (mapcar
-           (lambda (node)
-             (let* ((my-fn (assoc-default
-                            (format "%s" (helm-tree-sitter-core-elem-node-type node))
-                            current-mode-producer)))
-               (when my-fn
-                 ;; Great, we have a handler for the element node type
-                 (let ((fun-ret (funcall my-fn node))) ; Let's get the actual text
-                   (when fun-ret
-                     ;; Each candidate will consist of a list containing (text-string . tree)
-                     (cons
-                      fun-ret
-                      ;; Store the tree too, so additional actions can be performed later
-                      node))))))
-           elements))))
+      (remq nil
+            (mapcar
+             (lambda (node)
+               (let* ((my-fn (assoc-default
+                              (format "%s" (helm-tree-sitter-core-elem-node-type node))
+                              current-mode-producer)))
+                 (when my-fn
+                   ;; Great, we have a handler for the element node type
+                   (let ((fun-ret (funcall my-fn node))) ; Let's get the actual text
+                     (when fun-ret
+                       ;; Each candidate will consist of a list containing (text-string . tree)
+                       (cons
+                        fun-ret
+                        ;; Store the tree too, so additional actions can be performed later
+                        node))))))
+             elements)))))
 
 (defun helm-tree-sitter-core-build-node-list (node depth)
 "Helm-tree-sitter internal function.

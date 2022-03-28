@@ -51,6 +51,7 @@
 (require 'helm-tree-sitter-cpp)
 (require 'helm-tree-sitter-python)
 (require 'helm-tree-sitter-rust)
+(require 'helm-tree-sitter-default)
 
 ;;;###autoload
 (defun helm-tree-sitter-or-imenu ()
